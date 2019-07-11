@@ -1,7 +1,3 @@
-#include<stdio.h>
-#include<assert.h>
-
-
 //47.LeetCode06:将一个给定的字符串根据给定的行数以从上往下，从左到右进行Z字形排列。
 //1.将一个给定的字符串根据给定的行数以从上往下，从左到右进行Z字形排列。
 #include<stdio.h>
