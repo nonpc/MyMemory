@@ -1,0 +1,363 @@
+.reg-input-wrap CITE {
+	DISPLAY: none
+}
+.reg-input-wrap EM {
+	DISPLAY: none
+}
+.reg-input-wrap SPAN {
+	DISPLAY: none
+}
+.regist-main-bg#maincolumn {
+	BACKGROUND: url(/images/regist/bg-regist-main.jpg) #e9f1f5 no-repeat center bottom; PADDING-BOTTOM: 187px; WIDTH: auto
+}
+#regist {
+	MARGIN: 0px auto; WIDTH: 960px
+}
+#regist .step0 {
+	BACKGROUND: #fff
+}
+#regist .step1 {
+	BACKGROUND: url(/images/regist/bg-reg-step1.jpg) #fff no-repeat left bottom; PADDING-BOTTOM: 3px
+}
+#regist .reg-tit {
+	PADDING-BOTTOM: 10px; PADDING-TOP: 24px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px
+}
+#regist .reg-tit SPAN {
+	FONT-SIZE: 22px; HEIGHT: 30px; BACKGROUND: url(/images/regist/ico-reg-tit.gif) no-repeat 6px 5px; PADDING-LEFT: 37px; LINE-HEIGHT: 30px
+}
+#regist .roof {
+	OVERFLOW: hidden; HEIGHT: 3px; BACKGROUND: url(/images/regist/bg-reg.gif); LINE-HEIGHT: 3px
+}
+#regist .floor {
+	OVERFLOW: hidden; HEIGHT: 3px; BACKGROUND: url(/images/regist/bg-reg.gif) 0px bottom; LINE-HEIGHT: 3px
+}
+#regist .room {
+	BORDER-TOP: #e5e5e5 0px solid; BORDER-RIGHT: #e5e5e5 1px solid; BACKGROUND: none transparent scroll repeat 0% 0%; BORDER-BOTTOM: #e5e5e5 0px solid; ZOOM: 1; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; BORDER-LEFT: #e5e5e5 1px solid; PADDING-RIGHT: 0px
+}
+#regist .room-in-nor {
+	PADDING-BOTTOM: 100px; PADDING-TOP: 53px; PADDING-LEFT: 239px; PADDING-RIGHT: 0px
+}
+#regist .room-in-next {
+	PADDING-BOTTOM: 100px; PADDING-TOP: 30px; PADDING-LEFT: 239px; PADDING-RIGHT: 0px
+}
+#regist .room-in-tips {
+	PADDING-BOTTOM: 80px; PADDING-TOP: 60px; PADDING-LEFT: 134px; PADDING-RIGHT: 134px
+}
+#regist .mail-tips {
+	BACKGROUND: url(/images/regist/activate-mail.gif) #fafafa no-repeat 109px 40px; PADDING-BOTTOM: 46px; PADDING-TOP: 40px; PADDING-LEFT: 215px; PADDING-RIGHT: 0px
+}
+#regist .mail-tips H1 {
+	PADDING-BOTTOM: 15px; LINE-HEIGHT: 24px
+}
+#regist .mail-tips P {
+	FONT-SIZE: 14px; LINE-HEIGHT: 22px
+}
+#regist .mail-tips DIV.btn {
+	PADDING-TOP: 22px
+}
+#regist .side-tips {
+	PADDING-TOP: 20px
+}
+#regist .side-tips P {
+	COLOR: #999; PADDING-LEFT: 16px; LINE-HEIGHT: 24px
+}
+#regist .side-tips P.list {
+	BACKGROUND: url(/images/regist/list.gif) no-repeat 16px 9px; PADDING-LEFT: 29px
+}
+#regist .side-tips .identifier {
+	BORDER-TOP: #f1e3a0 1px solid; BORDER-RIGHT: #f1e3a0 1px solid; BACKGROUND: #ffffeb; BORDER-BOTTOM: #f1e3a0 1px solid; PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 6px; MARGIN: 0px 5px; BORDER-LEFT: #f1e3a0 1px solid; PADDING-RIGHT: 6px
+}
+#regist .end-tips {
+	BACKGROUND: #fafafa; PADDING-BOTTOM: 60px; TEXT-ALIGN: center; PADDING-TOP: 79px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px
+}
+#regist .end-tips IMG {
+	VERTICAL-ALIGN: middle; DISPLAY: inline-block
+}
+#regist .end-tips A {
+	MARGIN-TOP: 60px
+}
+#regist .reg-tab {
+	OVERFLOW: hidden; MARGIN-BOTTOM: 28px; HEIGHT: 47px; BACKGROUND: url(/images/regist/bg-reg-btn.gif); WIDTH: 480px
+}
+.register-layer .reg-tab {
+	OVERFLOW: hidden; MARGIN-BOTTOM: 28px; HEIGHT: 47px; BACKGROUND: url(/images/regist/bg-reg-btn.gif); WIDTH: 480px
+}
+#regist .reg-tab LI {
+	CURSOR: pointer; HEIGHT: 47px; FLOAT: left; WIDTH: 240px; TEXT-INDENT: -100em
+}
+.register-layer .reg-tab LI {
+	CURSOR: pointer; HEIGHT: 47px; FLOAT: left; WIDTH: 240px; TEXT-INDENT: -100em
+}
+#regist .reg-tab LI.hover {
+	BACKGROUND: url(/images/regist/bg-reg-btn.gif)
+}
+.register-layer .reg-tab LI.hover {
+	BACKGROUND: url(/images/regist/bg-reg-btn.gif)
+}
+#regist .reg-tab LI.mate {
+	BACKGROUND-POSITION: 0px -50px
+}
+.register-layer .reg-tab LI.mate {
+	BACKGROUND-POSITION: 0px -50px
+}
+#regist .reg-tab LI.hr {
+	BACKGROUND-POSITION: right -50px
+}
+.register-layer .reg-tab LI.hr {
+	BACKGROUND-POSITION: right -50px
+}
+A.reg-btn {
+	BACKGROUND: url(/images/regist/bg-reg-btn.gif) no-repeat
+}
+A.reg-btn SPAN {
+	BACKGROUND: url(/images/regist/bg-reg-btn.gif) no-repeat
+}
+A.reg-btn {
+	OVERFLOW: hidden; CURSOR: pointer; FONT-SIZE: 14px; HEIGHT: 41px; VERTICAL-ALIGN: middle; BACKGROUND-POSITION: 0px -100px; FONT-WEIGHT: bold; COLOR: #333; PADDING-LEFT: 3px; TEXT-DECORATION: none; DISPLAY: inline-block; WIDTH: auto; MARGIN-RIGHT: 12px
+}
+A.reg-btn SPAN {
+	CURSOR: pointer; HEIGHT: 41px; BACKGROUND-POSITION: right -100px; COLOR: #333; TEXT-ALIGN: center; DISPLAY: block; LINE-HEIGHT: 41px; PADDING-RIGHT: 3px; WIDTH: 144px; _line-height: 15px; _height: 15px; _padding-top: 13px; _padding-bottom: 13px
+}
+A.reg-btn SPAN IMG {
+	VERTICAL-ALIGN: middle; PADDING-RIGHT: 12px
+}
+A.reg-btn:hover {
+	BACKGROUND-POSITION: 0px -150px; COLOR: #fff; TEXT-DECORATION: none
+}
+A.reg-btn:hover SPAN {
+	BACKGROUND-POSITION: right -150px; COLOR: #fff; TEXT-DECORATION: none
+}
+A.reg-company-btn.reg-btn:hover {
+	BACKGROUND-POSITION: 0px -200px; TEXT-DECORATION: none
+}
+A.reg-company-btn.reg-btn:hover SPAN {
+	BACKGROUND-POSITION: right -200px; TEXT-DECORATION: none
+}
+A.tgreen.reg-btn {
+	BACKGROUND-POSITION: 0px -150px
+}
+A.tgreen.reg-btn SPAN {
+	BACKGROUND-POSITION: right -150px; COLOR: #fff
+}
+A.reg-btn-next {
+	OVERFLOW: hidden; CURSOR: pointer; FONT-SIZE: 14px; HEIGHT: 40px; VERTICAL-ALIGN: middle; BACKGROUND: url(/images/regist/bg-reg-btn.gif) 0px -250px; FONT-WEIGHT: bold; COLOR: #333; TEXT-ALIGN: left; TEXT-DECORATION: none; MARGIN-TOP: 15px; DISPLAY: inline-block; LINE-HEIGHT: 40px; WIDTH: 150px
+}
+A.reg-btn-next SPAN {
+	PADDING-LEFT: 47px
+}
+A.reg-btn-next:hover {
+	BACKGROUND-POSITION: right -250px; COLOR: #fff; TEXT-DECORATION: none
+}
+.reg-btn-tips {
+	COLOR: #999
+}
+.reg-btn-tips A {
+	COLOR: #3d990f
+}
+.reg-table TH {
+	FONT-SIZE: 14px; HEIGHT: 50px
+}
+.reg-table TD {
+	FONT-SIZE: 14px; HEIGHT: 50px
+}
+.reg-table TH {
+	COLOR: #666; TEXT-ALIGN: right; PADDING-RIGHT: 10px; WIDTH: 100px
+}
+.reg-table LABEL {
+	FONT-SIZE: 14px
+}
+.reg-table .small {
+	FONT-SIZE: 12px
+}
+#regist SELECT {
+	HEIGHT: 22px; WIDTH: 355px
+}
+.reg-input-wrap {
+	DISPLAY: inline-block
+}
+.reg-input-wrap INPUT {
+	OVERFLOW: hidden; FONT-SIZE: 16px; BORDER-TOP: #c6c6c6 1px solid; HEIGHT: 20px; BORDER-RIGHT: #eeeeee 1px solid; VERTICAL-ALIGN: middle; BACKGROUND: #f9f9f9; BORDER-BOTTOM: #eee 1px solid; COLOR: #000; PADDING-BOTTOM: 8px; PADDING-TOP: 8px; PADDING-LEFT: 10px; BORDER-LEFT: #c6c6c6 1px solid; LINE-HEIGHT: 20px; PADDING-RIGHT: 10px; WIDTH: 335px
+}
+.reg-input-wrap INPUT.focus {
+	BACKGROUND: #fffed7
+}
+.reg-input-wrap EM {
+	FONT-SIZE: 14px
+}
+.reg-input-wrap EM {
+	DISPLAY: none
+}
+.reg-input-wrap SPAN {
+	DISPLAY: none
+}
+.reg-input-wrap CITE {
+	DISPLAY: none
+}
+#regist .desire {
+	PADDING-BOTTOM: 100px; PADDING-TOP: 26px; PADDING-LEFT: 260px; PADDING-RIGHT: 0px
+}
+.desire P {
+	COLOR: #666; PADDING-LEFT: 40px; LINE-HEIGHT: 30px
+}
+.desire LABEL {
+	FONT-SIZE: 14px; HEIGHT: 30px
+}
+.desire INPUT.checkbox {
+	_margin: 5px 0
+}
+.desire P.tit {
+	FONT-SIZE: 14px; FONT-WEIGHT: bold; PADDING-BOTTOM: 3px; PADDING-TOP: 14px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px
+}
+.desire P SPAN.tips {
+	FONT-SIZE: 12px; FONT-WEIGHT: normal; COLOR: #999
+}
+.desire P.btn {
+	PADDING-TOP: 28px
+}
+.desire P.btn A {
+	TEXT-DECORATION: none
+}
+.desire INPUT.text {
+	OVERFLOW: hidden; FONT-SIZE: 14px; BORDER-TOP: #c6c6c6 1px solid; HEIGHT: 20px; BORDER-RIGHT: #eeeeee 1px solid; VERTICAL-ALIGN: middle; BACKGROUND: #f9f9f9; BORDER-BOTTOM: #eee 1px solid; COLOR: #000; PADDING-BOTTOM: 8px; PADDING-TOP: 8px; PADDING-LEFT: 10px; BORDER-LEFT: #c6c6c6 1px solid; LINE-HEIGHT: 20px; PADDING-RIGHT: 10px; WIDTH: 335px
+}
+.desire .blankTips SPAN {
+	OVERFLOW: hidden; FONT-SIZE: 14px; BORDER-TOP: #c6c6c6 1px solid; HEIGHT: 20px; BORDER-RIGHT: #eeeeee 1px solid; VERTICAL-ALIGN: middle; BACKGROUND: #f9f9f9; BORDER-BOTTOM: #eee 1px solid; COLOR: #000; PADDING-BOTTOM: 8px; PADDING-TOP: 8px; PADDING-LEFT: 10px; BORDER-LEFT: #c6c6c6 1px solid; LINE-HEIGHT: 20px; PADDING-RIGHT: 10px; WIDTH: 335px
+}
+.desire A.arrowhandler {
+	VERTICAL-ALIGN: middle
+}
+.desire .blankTips {
+	POSITION: relative; DISPLAY: inline-block; PADDING-RIGHT: 5px
+}
+.desire .blankTips SPAN {
+	POSITION: absolute; COLOR: #999; TEXT-ALIGN: left; LEFT: 0px; DISPLAY: none; LINE-HEIGHT: 18px; TOP: 0px
+}
+#regist .tips-login {
+	BORDER-TOP: #cce4c0 1px solid; HEIGHT: 88px; BORDER-RIGHT: #cce4c0 1px solid; BACKGROUND: url(/images/regist/ico-reg-tips-login.gif) #f8fff5 no-repeat 94px center; BORDER-BOTTOM: #cce4c0 1px solid; PADDING-LEFT: 165px; MARGIN: 42px 119px 0px; BORDER-LEFT: #cce4c0 1px solid
+}
+#regist .tips-mail {
+	BORDER-TOP: #cce4c0 1px solid; HEIGHT: 88px; BORDER-RIGHT: #cce4c0 1px solid; BACKGROUND: url(/images/regist/ico-reg-tips-login.gif) #f8fff5 no-repeat 94px center; BORDER-BOTTOM: #cce4c0 1px solid; PADDING-LEFT: 165px; MARGIN: 42px 119px 0px; BORDER-LEFT: #cce4c0 1px solid
+}
+#regist .tips-end {
+	BORDER-TOP: #cce4c0 1px solid; HEIGHT: 88px; BORDER-RIGHT: #cce4c0 1px solid; BACKGROUND: url(/images/regist/ico-reg-tips-login.gif) #f8fff5 no-repeat 94px center; BORDER-BOTTOM: #cce4c0 1px solid; PADDING-LEFT: 165px; MARGIN: 42px 119px 0px; BORDER-LEFT: #cce4c0 1px solid
+}
+#regist .tips-login H1 {
+	HEIGHT: 20px; PADDING-TOP: 19px
+}
+#regist .tips-mail H1 {
+	HEIGHT: 20px; PADDING-TOP: 19px
+}
+#regist .tips-end H1 {
+	HEIGHT: 20px; PADDING-TOP: 19px
+}
+#regist .tips-login P {
+	FONT-SIZE: 14px; PADDING-TOP: 10px
+}
+#regist .tips-mail P {
+	FONT-SIZE: 14px; PADDING-TOP: 10px
+}
+#regist .tips-end P {
+	FONT-SIZE: 14px; PADDING-TOP: 10px
+}
+#regist .tips-mail {
+	BACKGROUND: url(/images/regist/ico-reg-tips-mail.gif) #f8fff5 no-repeat 94px center
+}
+#regist .tips-end {
+	HEIGHT: 111px; BACKGROUND: url(/images/regist/ico-reg-tips-end.gif) #f8fff5 no-repeat 94px 23px
+}
+#regist .tips-end P {
+	LINE-HEIGHT: 22px
+}
+.desire A.arrowhandler {
+	HEIGHT: 31px; BACKGROUND: url(/images/regist/btn-desire-arrow.gif) no-repeat; DISPLAY: inline-block; WIDTH: 30px; TEXT-INDENT: -9999px
+}
+.reg-tel TH {
+	HEIGHT: 100px
+}
+reg-tel TD {
+	HEIGHT: 100px
+}
+.reg-tel-tips {
+	MARGIN-BOTTOM: 10px; BORDER-TOP: #efdea8 1px solid; HEIGHT: 28px; BORDER-RIGHT: #efdea8 1px solid; BACKGROUND: url(/images/regist/ico-reg-tel-tips.gif) #fffde3 no-repeat 9px center; BORDER-BOTTOM: #efdea8 1px solid; COLOR: #999; PADDING-LEFT: 32px; BORDER-LEFT: #efdea8 1px solid; LINE-HEIGHT: 28px; WIDTH: 323px
+}
+.transparent.reg-tel-tips {
+	FILTER: alpha(opacity=0); opacity: 0
+}
+TABLE.mate_table .mate_field {
+	DISPLAY: none
+}
+TABLE.hr_table .hr_field {
+	DISPLAY: none
+}
+#regist .reg-input-auto {
+	Z-INDEX: 9999
+}
+.reg-input-auto .matchbox {
+	FLOAT: left; WIDTH: 357px
+}
+#regist .reg-input-auto .formIcon {
+	MARGIN: 10px 0px 0px
+}
+#regist .license {
+	POSITION: relative; PADDING-BOTTOM: 72px; TEXT-ALIGN: center; PADDING-TOP: 58px; PADDING-LEFT: 0px; MARGIN: 0px 110px; PADDING-RIGHT: 0px
+}
+#regist .license IMG {
+	MARGIN: 0px auto; DISPLAY: block
+}
+#regist .license A {
+	MARGIN-TOP: 69px
+}
+#regist .license P.name {
+	POSITION: absolute; COLOR: #1470cc; TEXT-ALIGN: center; LEFT: 17px; LINE-HEIGHT: 22px; TOP: 210px; WIDTH: 185px
+}
+#regist .license P.jobs {
+	OVERFLOW: hidden; HEIGHT: 20px; POSITION: absolute; TEXT-ALIGN: center; LEFT: 17px; LINE-HEIGHT: 20px; TOP: 234px; WIDTH: 185px
+}
+#regist .license P.company {
+	OVERFLOW: hidden; HEIGHT: 20px; POSITION: absolute; TEXT-ALIGN: center; LEFT: 17px; LINE-HEIGHT: 20px; TOP: 254px; WIDTH: 185px
+}
+.tDialog {
+	PADDING-BOTTOM: 10px
+}
+.tDialog H3 {
+	MARGIN-BOTTOM: 10px; FONT-SIZE: 14px; FONT-WEIGHT: bold; TEXT-ALIGN: center
+}
+.tDialog P {
+	PADDING-BOTTOM: 3px; PADDING-TOP: 3px; PADDING-LEFT: 30px; PADDING-RIGHT: 0px
+}
+.register-layer {
+	PADDING-BOTTOM: 35px; PADDING-TOP: 35px; PADDING-LEFT: 94px; PADDING-RIGHT: 94px
+}
+.start-login {
+	PADDING-BOTTOM: 18px; PADDING-TOP: 18px; PADDING-LEFT: 24px; PADDING-RIGHT: 24px
+}
+.start-login .left {
+	BORDER-RIGHT: #e6e6e6 1px solid; PADDING-BOTTOM: 34px; PADDING-TOP: 19px; PADDING-LEFT: 0px; PADDING-RIGHT: 37px
+}
+.start-login .right {
+	PADDING-BOTTOM: 24px; PADDING-TOP: 24px; PADDING-LEFT: 29px; PADDING-RIGHT: 0px; WIDTH: 183px
+}
+.start-login .right DT {
+	PADDING-BOTTOM: 10px; PADDING-TOP: 0px; PADDING-LEFT: 0px; LINE-HEIGHT: 16px; PADDING-RIGHT: 0px
+}
+.start-login .right DD {
+	PADDING-BOTTOM: 25px
+}
+.button-login A.reg-btn {
+	WIDTH: 107px
+}
+.button-login A.reg-btn SPAN {
+	WIDTH: 104px
+}
+.reg-btn-tip2 .sinaLogo {
+	BACKGROUND: url(/images/regist/sinaLogo.gif) no-repeat 0px 2px; COLOR: #999; PADDING-BOTTOM: 3px; PADDING-TOP: 3px; PADDING-LEFT: 23px; DISPLAY: inline-block; LINE-HEIGHT: 16px; PADDING-RIGHT: 0px
+}
+.start-login TABLE.form .text {
+	OVERFLOW: hidden; FONT-SIZE: 16px; HEIGHT: 20px; BACKGROUND: #f9f9f9; PADDING-BOTTOM: 8px; PADDING-TOP: 8px; PADDING-LEFT: 10px; LINE-HEIGHT: 20px; PADDING-RIGHT: 10px; WIDTH: 256px
+}
+.start-login .right P A {
+	HEIGHT: 38px; BACKGROUND: url(/images/regist/jiaru2.gif) no-repeat 0px 0px; DISPLAY: inline-block; WIDTH: 160px
+}
+.start-login .msg-error {
+	MARGIN-RIGHT: 4px
+}

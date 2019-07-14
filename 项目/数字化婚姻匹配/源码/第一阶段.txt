@@ -1,0 +1,785 @@
+#include <iostream>
+#include <vector>  // 使用vector容器
+#include <algorithm>  // 使用泛型算法
+#include <functional> // C++ STL的函数对象 greater less greater_equal less_
+#include <typeinfo>
+#include<queue>
+#include <string>
+//#include<ctime>
+#include<unordered_map>
+#include <windows.h>
+using namespace std;
+//HI_zkr
+
+#define MAXNUM 100
+#define BESTMATCH 20
+#define MALE 1
+#define FEMALE 0
+#define PLAYERS -1
+/*
+财富 :  _wealth
+样貌 : _appearance
+品格 : _character 
+期望财富 : _expectancyWealth
+期望样貌 : _expectancyAppearance
+期望品格 : _expectancyCharacter 
+性别 : _sex
+ID : _id
+邀请数 :  _invitation
+
+需求分析 : 
+满意度 = 个人偏好 * 异性指标 + ....+...
+配对法则 :
+    1. 男 (根据满意度 , 发送邀请) => 女
+	[ 如果满意度相同 , MAX(财富 + 样貌 + 品格) ; 再相同 , id小的优先 ]  id 就是下标
+
+	2. (受邀数目最多的) 女  (根据发出邀请的男 的满意度)  => 男
+	[ 如果满意度相同 , MAX(财富 + 样貌 + 品格) ; 再相同 , id小的优先 ]
+	[把主角的id设置为最小 , 即 -1]
+
+	主角(0 表示女 , 1 表示男)
+
+	3. 配对成功 , 提出样本
+*/
+
+class MyTimer
+{
+public:
+	MyTimer()
+	{
+		QueryPerformanceFrequency(&_freq);
+		costTime=0.0;
+	}
+	void Start()
+	{
+		for(int i=0; i<EN_NUMER; ++i)
+		{
+			QueryPerformanceCounter(&_array[i]._begin);	
+		}
+	}
+	void Stop()
+	{
+		for(int i=0; i<EN_NUMER; ++i)
+		{
+			QueryPerformanceCounter(&_array[i]._end);	
+		}
+	}
+	void Reset()
+	{
+		costTime=0.0;
+	}
+	void showTime()
+	{
+		double allTime=0.0;
+		for(int i=0; i<EN_NUMER; ++i)
+		{
+			allTime+=(((double)_array[i]._end.QuadPart-(double)_array[i]._begin.QuadPart)/(double)_freq.QuadPart);
+		}
+		costTime=allTime/EN_NUMER;
+		costTime*=1000000;
+		
+		if((((int)costTime)/1000000) > 0)
+		{
+			cout<<costTime/1000000<<" s"<<endl;
+		}
+		else if(((int)costTime)/1000 > 0)
+		{
+			cout<<costTime/1000<<" ms"<<endl;
+		}
+		else
+		{
+			cout<<costTime<<" us"<<endl;
+		}
+	}
+private:
+	class Array
+	{
+	public:
+		LARGE_INTEGER _begin;
+		LARGE_INTEGER _end;
+	};
+	enum{EN_NUMER=5};
+	LARGE_INTEGER _freq;
+	double costTime;
+	Array _array[EN_NUMER];
+};
+
+//异性信息
+class IsomerismData
+{
+public:
+	IsomerismData(int id = 0)
+		: _ID(id)
+	{}
+#if 0
+	void SetInvitation(int invitation)
+	{
+		_invitation = invitation;
+	}
+#endif
+	void SetID(int id)
+	{
+		_ID = id;
+		//_ID.push_back(id);
+	}
+#if 0
+	int GetInvitation()
+	{
+		return _invitation;
+	}
+#endif
+	int GetID()
+	{
+		/*auto it = _ID.end();
+		return *(it-1);*/
+		return _ID;
+	}
+private:
+	int _ID;//异性的id
+	friend class PersonalDataDB ;
+	friend void Match(PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend void Satisfaction(PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend int MaxInvitation(PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend int  BestMatch(int id , PersonalDataDB &lhs,PersonalDataDB &rhs);
+};
+
+//个人信息
+class PersonalData 
+{
+public:
+	//构造函数
+	PersonalData(int wealth = 0 , int appearance = 0 , int character = 0 , int expectancyWealth = 0 , 
+		int expectancyAppearance = 0 , int expectancyCharacter = 0 , int sex = 0 , int invitation = 0 , int exist = 0)
+		:_wealth(wealth) , _appearance(appearance) , _character(character) , _expectancyWealth(expectancyWealth) , 
+		_expectancyAppearance(expectancyAppearance) , _expectancyCharacter(expectancyCharacter) , _sex(sex) , 
+		_invitation(invitation) , _exist(exist)
+	{}
+	//记录财富
+	void SetWealth(int wealth)
+	{
+		_wealth = wealth;
+	}
+	//记录样貌
+	void SetAppearance(int appearance)
+	{
+		_appearance = appearance;
+	}
+	//记录品格
+	void SetCharacter(int character)
+	{
+		_character = character;
+	}
+	//记录预期财富
+	void SetExpectancyWealth(int expectancyWealth)
+	{
+		_expectancyWealth = expectancyWealth;
+	}
+	//记录预期样貌
+	void SetExpectancyAppearance(int expectancyAppearance)
+	{
+		_expectancyAppearance = expectancyAppearance;
+	}
+	//记录预期品格
+	void SetExpectancyCharacter(int expectancyCharacter)
+	{
+		_expectancyCharacter = expectancyCharacter;
+	}
+	//记录性别
+	void SetSex(int sex)
+	{
+		_sex = sex;
+	}
+	//设置邀请数
+	void SetInvitation(int invitation)
+	{
+		_invitation = invitation;
+	}
+#if 0
+	void show()
+	{
+#if 0
+		cout<<_wealth<<","<<_appearance<<","<<_character<<","
+			<<_expectancyWealth<<","<<_expectancyAppearance<<","
+			<<_expectancyCharacter<<endl;
+#endif
+		
+	
+		for(IsomerismData val : _person)
+		{
+			cout<<val.GetID()<<","<<val.GetInvitation();
+		}
+		cout<<endl;
+	}
+#endif
+	//得到性别
+	int GetSex()
+	{
+		return _sex;
+	}
+	//得到财富
+	int GetWealth()
+	{
+		return _wealth;
+	}
+	//得到样貌
+	int GetAppearance()
+	{
+		return _appearance ;
+	}
+	//得到品格
+	int GetCharacter()
+	{
+		return _character;
+	}
+	//得到预期财富
+	int GetExpectancyWealth()
+	{
+		return _expectancyWealth ;
+	}
+	//得到预期样貌
+	int GetExpectancyAppearance()
+	{
+		return _expectancyAppearance ;
+	}
+	//得到预期品格
+	int GetExpectancyCharacter()
+	{
+		return _expectancyCharacter ;
+	}
+	//得到邀请数
+	int GetInvitation()
+	{
+		return _invitation;
+	}
+private:
+	int  _wealth; //财富
+	int  _appearance; //样貌
+	int  _character; //品格
+	int  _expectancyWealth;  //预期财富
+	int  _expectancyAppearance;  //预期样貌
+	int  _expectancyCharacter ;  //预期品格
+	int _sex;
+	int _invitation;//邀请数
+	int _exist;//这个人是否配对(存在)
+	vector<IsomerismData> _person;
+	friend class PersonalDataDB ;
+	friend void Match(PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend void Satisfaction(PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend int MaxInvitation(PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend int  BestMatch(int id , PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend void DelMatch(int MaleID ,int FemaleID , PersonalDataDB &lhs,PersonalDataDB &rhs);
+
+	friend void show(PersonalDataDB &lhs,PersonalDataDB &rhs);
+};
+
+//个人信息数据库
+class PersonalDataDB 
+{
+public:
+	PersonalDataDB (int size = MAXNUM)
+		: _vec(size)
+	{}
+	//记录数据
+	void SetInformation(int id , int wealth , int appearance , int character , int expectancyWealth  , 
+		int expectancyAppearance , int expectancyCharacter , int sex)
+	{
+		_vec[id].SetWealth(wealth);
+		_vec[id].SetAppearance(appearance);
+		_vec[id].SetCharacter(character);
+		_vec[id].SetExpectancyWealth(expectancyWealth);
+		_vec[id].SetExpectancyAppearance(expectancyAppearance);
+		_vec[id].SetExpectancyCharacter(expectancyCharacter);
+		_vec[id].SetSex(sex);
+	}
+	void SetPlayers(int wealth , int appearance , int character , int expectancyWealth  , 
+		int expectancyAppearance , int expectancyCharacter , int sex , int i)
+	{
+		//传一个 下标 i
+			_vec[i].SetWealth(wealth);
+			_vec[i].SetAppearance(appearance);
+			_vec[i].SetCharacter(character);
+			_vec[i].SetExpectancyWealth(expectancyWealth);
+			_vec[i].SetExpectancyAppearance(expectancyAppearance);
+			_vec[i].SetExpectancyCharacter(expectancyCharacter);
+			_vec[i].SetSex(sex);
+		
+	}
+	//读取文件
+	void Information(int sex)
+	{
+		FILE *fp = nullptr;
+		if(sex == MALE)
+		{
+			fp = fopen("male.txt","rb");
+		}
+		if(sex == FEMALE)
+		{
+			fp = fopen("female.txt" , "rb");
+		}
+		if(sex == PLAYERS)
+		{
+			fp = fopen("players.txt" , "rb");
+		}
+		
+		for(int i = 0; i < MAXNUM;++i)
+		{
+			int id , wealth , appearance , character , expectancyWealth , expectancyAppearance , expectancyCharacter ; 
+			fscanf(fp,"%d, %d, %d, %d, %d, %d, %d",&id,&wealth,&appearance,&character,&expectancyWealth,&expectancyAppearance , 
+				&expectancyCharacter);
+			//主角没有id  , 只有性别
+			if(sex == PLAYERS)
+			{
+				SetPlayers(wealth,appearance,character,expectancyWealth,expectancyAppearance , 
+				expectancyCharacter,id , i);
+			}
+			else
+			{
+				//设置信息
+				SetInformation(id,wealth,appearance,character,expectancyWealth,expectancyAppearance , 
+					expectancyCharacter,sex);
+			}
+			
+		}
+		//没有打开文件
+		if(fp == nullptr)
+		{
+			return ;
+		}
+		fclose(fp);
+	}
+	
+private:	
+	vector<PersonalData> _vec; //个人信息
+	friend void Match(PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend void Satisfaction(PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend int MaxInvitation(PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend int  BestMatch(int id , PersonalDataDB &lhs,PersonalDataDB &rhs);
+	friend void DelMatch(int MaleID ,int FemaleID , PersonalDataDB &lhs,PersonalDataDB &rhs);
+
+	friend void show(PersonalDataDB &lhs,PersonalDataDB &rhs);
+};
+
+//保存 id 和 满意度 使用的临时类
+class TMP
+{
+	public:
+		TMP(int id = 0,int score = 0)
+			:_id(id) , _score(score)
+		{}
+		int Getscore()
+		{ return _score; }
+		int Getid()
+		{return _id;}
+		int _id; //id
+		int _score;//满意度
+};
+
+//计算满意度  , 优先级  , 得出男性人心仪的女性 
+void Satisfaction(PersonalDataDB &lhs,PersonalDataDB &rhs)	
+{
+	// 创建一个容器 , 用来保存相同满意度(满意度最大值) 的女方信息
+	int sum = 0;
+	int first = 0;
+	vector<TMP> male;
+	int lenL = lhs._vec.size();
+	int lenR = rhs._vec.size();
+	for(int i = 0 ; i < lenL ; ++i)
+	{
+		if(lhs._vec[i]._exist == 1)
+		{
+			continue;
+		}
+		//清空数据
+		male.clear();
+		first = 0;
+		for(int j = 0; j < lenR;++j)
+		{
+			if(rhs._vec[j]._exist == 1)
+			{
+				continue;
+			}
+			//偏好 * 异性指标
+			sum = lhs._vec[i].GetExpectancyWealth() * rhs._vec[j].GetWealth() + 
+				lhs._vec[i].GetExpectancyAppearance() * rhs._vec[j].GetAppearance() +
+				lhs._vec[i].GetExpectancyCharacter() * rhs._vec[j].GetCharacter();
+			//sum = lhs._vec[i]._expectancyWealth     ok , 后期可改
+			
+			//第一个或者满意度相同 , 则记录
+			//出现问题 , 当j == 0时 被跳过
+			if( (first == 0) || (sum == male[0].Getscore()) )
+			{
+				male.push_back(TMP(j,sum));
+				first = -1;
+			}
+			
+			//male保存的满意度相同  
+			if(sum > male[0].Getscore())
+			{
+				male.clear();
+				male.push_back(TMP(j,sum));
+			}
+		}
+		
+		//一个男性所对应的全部女性满意度计算完毕
+		//然后根据上一步的信息 , 得出每个男方最满意的女方 ,  同时向对应女方异性容器里记录向她发送邀请的男方id;
+		//[ 如果满意度相同 , MAX(财富 + 样貌 + 品格) ; 再相同 , id小的优先 ]
+		int len = male.size();
+		if(len > 1)
+		{
+			vector<TMP> tmp;
+			//计算MAX
+			int max = 0 ;
+			sum = 0;
+			for(int k = 0 ; k < len ;++k)
+			{
+				//MAX计算 = 自身属性
+				sum = rhs._vec[male[k].Getid()].GetWealth() + 
+					rhs._vec[male[k].Getid()].GetAppearance() +
+					rhs._vec[male[k].Getid()].GetCharacter();
+				if(sum == max)
+				{
+					tmp.push_back(TMP(i,sum));
+				}
+				if(sum > max)
+				{
+					max = sum;
+					tmp.clear();
+					tmp.push_back(TMP(i,sum));
+				}
+			}
+			//max计算完毕 , 检查是否出现最大值
+			int len1 = tmp.size();
+			if(len1 > 1)
+			{
+				int min = 0;
+				for(int m = 0 ; m < len1;++m)
+				{
+					if(min > tmp[m].Getid())
+					{
+						min = tmp[m].Getid();
+					}
+				}
+				//得到最小的之后发送邀请
+				rhs._vec[min]._invitation++;
+				//女方记录男方id
+				rhs._vec[min]._person.push_back(i);
+				//cout<<i<<" 的心仪女性是 : "<<min<<endl;
+				continue ;
+			}
+			//MAX之中 只有一个最大值
+			rhs._vec[tmp[0]._id]._invitation++;
+			rhs._vec[tmp[0]._id]._person.push_back(i);
+			continue;
+		}
+		rhs._vec[male[0]._id]._invitation++;
+		rhs._vec[male[0]._id]._person.push_back(i);
+		//cout<<i<<" 的心仪女性是 : "<<male[0].Getid()<<endl;
+	}
+
+	//测试
+	/*int len = rhs._vec[7]._person.size();
+	cout<<"len : "<<len<<endl;
+	for(int i = 0 ; i < rhs._vec[7]._person.size();++i)
+	{
+		cout<<"rhs._vec[7]._person[i]._ID : "<<rhs._vec[7]._person[i]._ID<<endl;
+	}*/
+}
+
+//计算收到邀请数最大的女性 
+int MaxInvitation(PersonalDataDB &lhs,PersonalDataDB &rhs)
+{
+	vector<TMP> female;
+	int lenR = rhs._vec.size();
+
+	//测试
+	/*for(int i = 0 ; i < lenR;++i)
+	{
+		cout<<i<<"接收到的邀请数 : "<<rhs._vec[i]._invitation<<endl;
+	}*/
+
+	int max = rhs._vec[0]._invitation;
+	//female.push_back(TMP(0,0));
+	int first = 0;
+	for(int i = 0 ; i < lenR ; ++i)
+	{
+		if(rhs._vec[i]._exist == 1)	
+		{
+			continue;	
+		}
+		//邀请数相同 , 插入
+		if(first == 0 || max == rhs._vec[i]._invitation)
+		{
+			female.push_back(TMP(i,0));
+			first = -1;
+		}
+		//邀请数大的 , 清空容器 , 插入
+		if(max < rhs._vec[i]._invitation)
+		{
+			female.clear();
+			max = rhs._vec[i]._invitation;
+			female.push_back(TMP(i,0));
+		}
+	}
+
+	//测试
+	/*for(int i = 0 ;i < female.size();++i)
+	{
+		cout<<i<<" : "<<female[i]._id<<endl;
+	}*/
+
+	//遍历完整个女性容器 , 要么只有一个最大数 , 要么有多个相同数
+	int len = female.size();
+	if(len > 1)
+	{
+		vector<TMP> tmp;
+		//计算MAX
+		max = 0;
+		int sum = 0;
+		for(int k = 0 ; k < len ;++k)
+		{	
+			//MAX计算 = 自身属性
+			sum = rhs._vec[female[k]._id]._wealth +
+			rhs._vec[female[k]._id]._appearance +	
+			rhs._vec[female[k]._id]._character;
+			if(sum == max)
+			{
+				tmp.push_back(TMP(female[k]._id,0));
+			}	
+			if(sum > max)
+			{
+				max = sum;
+				tmp.clear();
+				tmp.push_back(TMP(female[k]._id,0));
+			}
+		}
+		//max计算完毕 , 若此时还有最大值 , 则 id 小的优先
+		int len1 = tmp.size();	
+		if(len1 > 1)	
+		{
+			int min = 0;	
+			for(int m = 0 ; m < len1;++m)	
+			{
+				if(min > tmp[m]._id)
+				{		
+					min = tmp[m]._id;		
+				}
+			}
+			//返回得到 id 最小(邀请数最多)的女性 
+			return min;
+		}
+		//MAX求出最大值
+		return tmp[0]._id;
+	}
+	//female之中 , 只有一个最大值
+	return female[0]._id;
+}
+
+//通过女方id , 计算满意度 , 得出最佳男性 , 返回男方id
+int  BestMatch(int id , PersonalDataDB &lhs,PersonalDataDB &rhs)
+{
+	//女方异性存储的 发出邀请的男方id
+	//auto it = rhs._vec[id]._person.begin();
+	vector<int> maleID;
+
+	int len  =rhs._vec[id]._person.size();
+	//测试
+	//cout<<"len :"<<len<<endl;
+	
+	for(int i = 0 ; i < len ;++i)
+	{
+		maleID.push_back(rhs._vec[id]._person[i]._ID);
+	}
+	//计算每个男方的满意度 , 选出最佳的那个
+	len = maleID.size();
+	int sum = 0;
+	vector<TMP> male;
+	for(int i = 0 ; i < len ;++i)
+	{
+		//偏好 * 指标
+		sum = lhs._vec[maleID[i]]._expectancyWealth * rhs._vec[id]._wealth +
+			lhs._vec[maleID[i]]._expectancyAppearance * rhs._vec[id]._appearance +
+			lhs._vec[maleID[i]]._expectancyCharacter * rhs._vec[id]._character;
+		if(i == 0 || sum == male[0]._score)
+		{
+			//保存男性 id 和 满意度
+			male.push_back(TMP(maleID[i],sum));
+		}
+		if(sum > male[0]._score)
+		{
+			male.clear();
+			male.push_back(TMP(maleID[i],sum));
+		}
+	}
+
+	len = male.size();
+
+	//cout<<"male.size() : "<<len<<endl;
+
+	if(len > 1)
+	{
+		//有相同满意度  , 计算MAX
+		vector<TMP> tmp;
+		int max = 0 ;	
+		sum = 0;
+		for(int i = 0 ; i < len ;++i)
+		{
+			sum  = lhs._vec[male[i]._id]._wealth + 
+				lhs._vec[male[i]._id]._appearance +
+				lhs._vec[male[i]._id]._character;
+			if(sum == max)
+			{
+				tmp.push_back(TMP(male[i]._id,sum));
+			}
+			if(sum > max)
+			{
+				max = sum ; 
+				tmp.clear();
+				tmp.push_back(TMP(male[i]._id,sum));
+			}
+		}
+		//MAX计算完毕 , 检查是否出现最大数
+		int len1 = tmp.size();
+		if(len1 > 1)
+		{
+			int min = 0;
+			for(int m = 0 ; m < len1;++m)
+			{
+				if(min > tmp[m]._id)
+				{
+					min = tmp[m]._id;
+					//我好像是按顺序 排的 , 是否直接访问第一个就好 , 即最小id
+				}
+			}
+			return min;
+		}
+		//MAX中求得最大值
+		return tmp[0]._id;
+	}
+	//只有一个最大值 , 直接返回此男性 id
+	return male[0]._id;
+
+
+
+	//测试
+	/*for(int i = 0 ;i < maleID.size();++i)
+	{
+		cout<<maleID[i]<<endl;
+	}*/
+	//计算满意度
+	return 0;
+}
+
+//配对成功后 , 将此样本从数据中删除 , 同时还要还原数据
+void DelMatch(int MaleID ,int FemaleID , PersonalDataDB &lhs,PersonalDataDB &rhs)
+{
+	//通过存在成员变量 , 在删除时 , 将它置为 1 ;
+	//其他过程 在遍历时发现它 不存在 , 则跳过 
+	//这样可以保证 , id 就是 对应的容器下标
+#if 0
+	cout<<"MaleID :"<<MaleID<<endl;
+	cout<<"FemaleID :"<<FemaleID<<endl;
+#endif
+	lhs._vec[MaleID]._exist = 1;
+	rhs._vec[FemaleID]._exist = 1;
+	//数据还原
+	for(int i = 0 ; i < MAXNUM;++i)
+	{
+		lhs._vec[i]._person.clear();
+		lhs._vec[i]._invitation = 0;
+		rhs._vec[i]._person.clear();
+		rhs._vec[i]._invitation = 0;
+	}
+
+#if 0
+	cout<<"lhs._vec[92]._exist :"<<lhs._vec[92]._exist<<endl;
+	cout<<"hs._vec[7]._exist"<<rhs._vec[7]._exist<<endl;
+#endif
+}
+
+//匹配
+void Match(PersonalDataDB &lhs,PersonalDataDB &rhs)
+{
+	//计算满意度  , 优先级  , 得出男性人心仪的女性
+	
+	Satisfaction(lhs,rhs);
+	
+	//计算收到邀请数最大的女性 , 计算满意度 , 得出最佳男性
+	int FemaleID = MaxInvitation(lhs , rhs);
+	//感觉满意度 和 优先级 可以个封装一个函数 , 有太多重复
+	
+	//通过女方id , 计算满意度 , 得出最佳男性
+	//cout<<"id : "<<FemaleID<<endl;
+	int MaleID = BestMatch(FemaleID , lhs , rhs);
+
+	//测试
+	//cout<<"女方 "<<FemaleID<<" 心仪的男性为 : "<<MaleID<<endl;
+	//cout<<FemaleID<<endl;
+	//cout<<MaleID<<endl;
+
+	//配对成功后 , 将此样本从数据中删除
+	DelMatch(MaleID , FemaleID , lhs , rhs);
+}
+
+void show(PersonalDataDB &lhs,PersonalDataDB &rhs)
+{
+	for(int i = 0 ; i < MAXNUM;++i)
+	{
+		cout<<i<<" _exist : "<<rhs._vec[i]._exist<<endl;
+	}
+}
+int main()
+{
+	MyTimer timer;
+	timer.Start();
+
+
+    //建立一个保存个人信息的类(包不包含性别?)	
+	//建立一个样本数据库(使用vector , 每一个元素都是一个 个人信息的对象)
+	PersonalDataDB male; //男
+	PersonalDataDB femal; //女
+	PersonalDataDB players; //主角
+	
+	//1.读取文件 , 将男 , 女信息都读取到容器中 (建一个对象 , 还是两个?)
+	male.Information(MALE);
+	//male.show();
+	femal.Information(FEMALE);
+	//femal.show();
+	players.Information(PLAYERS);
+	//players.show();
+
+
+
+	//2.每个男性 , 计算对异性的满意度
+	//Match(male , femal);
+
+	for(int i = 0 ; i < MAXNUM ;++i)
+	{
+		Match(male,femal);
+	}
+
+	//保存起来 , 还要求出最大值 
+	//show(male,femal);
+
+
+
+
+
+
+	//Satisfaction(male,femal);
+	//male.show();
+
+	//3.男性得出最满意的那个女性() , 发出邀请(优先级队列?)
+	//要得到女方 的id , 传递自己的 id ; 女方记录id , 同时受邀请数++; 
+
+	//4.收到邀请最多的女生(怎么判断 , 优先级队列?) , 通过满意度 , 找到最满意的男性 ,  即配对成功
+	//5.配对成功之后 , 将这组数据 , 从中移除(每轮到一个新的主角 , 样本还原)
+
+	//样本之间的满意度都是相同的 (应该是 只计算一次 后面有主角时 , 只计算主角的即可??)
+
+
+
+	cout<<endl;
+	timer.Stop();
+	timer.showTime();
+	return 0;
+}

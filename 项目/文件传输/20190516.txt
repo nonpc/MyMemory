@@ -1,0 +1,23 @@
+GDB=-g
+
+   ${GDB}
+   
+   set follow-fork-mode child  //跟踪子进程
+   
+   l thread.c:1    //跳转到某个 .c 文件  代码中
+   
+   
+   char *p = readline(str);
+   add_history(p);
+   
+   2G以上的文件 open是会直接失败的 , 查阅资料 , 编译的时候增加参数
+   
+   
+   cpu利用率 , 网络状态的指令
+   
+   md5sum aa client  //校验
+   
+   www.kernek.org   //linux源码网站   
+   
+   
+   entry.S
